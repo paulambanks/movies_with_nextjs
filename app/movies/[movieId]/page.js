@@ -1,12 +1,13 @@
 import React from "react";
+import {GET} from "@app/api/movies/[movieId]/route";
 
 // localhost:3000/movies/1
 
-const Movie = ({ params }) => {
+async function Movie ({ params }) {
     const { movieId } = params;
 
     return (
-        <div>{ movieId }</div>
+        <div>This is the movie: { movieId }</div>
     )
 }
 
