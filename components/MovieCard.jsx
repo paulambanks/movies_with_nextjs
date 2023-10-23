@@ -36,7 +36,7 @@ const MovieCard = ({ movie, handleTagClick}) => {
             </Link>
             <div className="content p-5">
                 <Link href={`/movies/${id}`}>
-                    <h4 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{title}</h4>
+                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{title}</h5>
                 </Link>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">{overview}</p>
                 <div className="mt-auto border-t-2 border-neutral-100 text-center dark:border-neutral-600 dark:text-neutral-50">

@@ -1,4 +1,12 @@
-import Feed from '@components/Feed'
+import {Suspense} from "react";
+import dynamic from 'next/dynamic'
+import Loading from "@app/loading";
+
+const Feed = dynamic(() => import('@components/Feed'), {
+    suspense: true,
+    ssr: false,
+})
+
 const Movies = () => {
     return (
         <section className='w-full flex-center flex-col'>
@@ -8,7 +16,9 @@ const Movies = () => {
                 <span className='blue_gradient text-center'> Hyped movies</span>
             </h1>
             <p className='desc text-center'></p>
-            <Feed />
+            <Suspense fallback={<Loading />}>
+                <Feed />
+            </Suspense>
         </section>
     )
 }

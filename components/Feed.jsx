@@ -1,39 +1,40 @@
 'use client';
 
-import {useState, Suspense} from "react";
+import {useState, useRef, useEffect, Suspense} from "react";
 import MovieCard from "./MovieCard";
-import useMoviesList from "@utils/useMoviesList";
+import useFetchMovies from "@utils/useFetchMovies";
+import Loading from "@app/loading";
 
 const MoviesCardList = ({data, handleTagClick}) => {
     return (
         <div className="mt-16 movies_layout">
             {data && data?.map((movie) => (
                 <MovieCard
+                    key={movie.title}
                     movie={movie}
                     handleTagClick={handleTagClick}
                 />
             ))}
+            <div></div>
         </div>
     )
 }
 
 const Feed = () => {
-    const movies = useMoviesList();
-    const [currentPage, setCurrentPage] = useState(1);
+    const [page, setPage] = useState(1);
+    const movies = useFetchMovies(page);
 
-    const onPageChange = (page) => {
-        setCurrentPage(page);
+    const handleMoreMovies = () => {
+        setPage((prevState) => prevState + 1);
     };
 
     const [searchText, setSearchText] = useState('');
 
-    const handleSearchChange = (e) => {
-
-    }
+    const handleSearchChange = (e) => {}
 
     return (
         <section className="feed">
-            <form className="relative w-full flex-center">
+            <form className="relative w-1/2 flex-center">
                 <input
                     type="text"
                     placeholder="Search for a tag or a title"
@@ -44,12 +45,21 @@ const Feed = () => {
                 />
             </form>
 
-            <Suspense fallback={<div>Loading.....</div>}>
+            <Suspense fallback={<Loading />}>
                 <MoviesCardList
-                    data={movies.results}
+                    data={movies}
                     handleTagClick={() => {}}
                 />
             </Suspense>
+            {page && (
+                <button
+                    type="button"
+                    className="black_btn p-2 m-5"
+                    onClick={handleMoreMovies}
+                >
+                    Load more
+                </button>
+            )}
         </section>
     )
 }

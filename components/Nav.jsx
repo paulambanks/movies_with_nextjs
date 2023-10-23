@@ -4,23 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import {signIn, signOut, useSession, getProviders} from 'next-auth/react';
+import useProviders from "@utils/useProvider";
 
 const Nav = () => {
     const {data: session} = useSession();
-    const [providers, setProviders] = useState(null);
-    const [toggleDropdown, setToggleDropdown] = useState(false);
+    const providers = useProviders();
 
-    useEffect(() => {
-        const setProvidersFunction = async () => {
-            const response = await getProviders()
-            setProviders(response);
-        }
-        setProvidersFunction();
-    }, []);
+    const [toggleDropdown, setToggleDropdown] = useState(false);
 
     return (
         <nav className="flex-between w-full mb-16 pt-3">
-            <Link href="/" className="flex gap-2 flex-center">
+            <Link key="logo" href="/" className="flex gap-2 flex-center">
                 <Image
                     src="/assets/images/logo.svg"
                     className="object-contain"
@@ -42,7 +36,7 @@ const Nav = () => {
                         >
                             Sign Out
                         </button>
-                        <Link href="/profile">
+                        <Link href="/profile" key="profile">
                             <Image
                                 src={session?.user.image}
                                 width={37}
@@ -88,6 +82,7 @@ const Nav = () => {
                             <div className="dropdown">
                                 <Link
                                     href="profile"
+                                    key="profile"
                                     className="dropdown_link"
                                     onClick={() => setToggleDropdown(false)}
                                 >
@@ -113,6 +108,7 @@ const Nav = () => {
                             Object.values(providers).map((provider) => (
                                 <button
                                     type="button"
+                                    key="signin"
                                     id={provider.name}
                                     onClick={() => signIn(provider.id)}
                                     className="black_btn"
